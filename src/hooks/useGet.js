@@ -9,6 +9,7 @@ export function useGet(url, params) {
     const stringified = new URLSearchParams(params).toString();
 
     useEffect(() => {
+        setLoading(true);
         const abortController = new AbortController();
         axios.get(url + '?' + stringified, { signal: abortController.signal })
             .then(res => {

@@ -9,7 +9,7 @@ export default function HomePage() {
     const [lng, setLng] = useState(cities.cities[0].lng);
     const [selectedCityName, setSelectedCityName] = useState(cities.cities[0].name);
     const selectedCity = cities.cities.find(e => e.name === selectedCityName);
-    const { data } = useGet('http://www.7timer.info/bin/api.pl', {
+    const { data, loading } = useGet('http://www.7timer.info/bin/api.pl', {
         lat,
         lon: lng,
         product: 'civillight',
@@ -20,6 +20,7 @@ export default function HomePage() {
         setLat(selectedCity?.lat || 0);
         setLng(selectedCity?.lng || 0);
     }, [selectedCity])
+
 
     return (
         <div className='container mt-5'>
@@ -50,15 +51,25 @@ export default function HomePage() {
                 )
             }
 
-            <div className='mt-5 p-2 d-flex flex-wrap align-items-center justify-content-between'>
-                {
-                    data?.dataseries.map(element => {
-                        return (
-                            <WeatherCard key={element.date} weatherData={element} />
-                        )
-                    })
-                }
-            </div>
+            {
+                loading ? (
+                    <div className='d-flex justify-content-center pt-5'>
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+                ) : (
+                    <div className='mt-5 p-2 d-flex flex-wrap align-items-center justify-content-between'>
+                        {
+                            data?.dataseries.map(element => {
+                                return (
+                                    <WeatherCard key={element.date} weatherData={element} />
+                                )
+                            })
+                        }
+                    </div>
+                )
+            }
         </div>
     )
 }
