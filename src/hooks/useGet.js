@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 
 export function useGet(url, params) {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(undefined);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(undefined);
     const stringified = new URLSearchParams(params).toString();
@@ -13,7 +13,10 @@ export function useGet(url, params) {
         axios.get(url + '?' + stringified, { signal: abortController.signal })
             .then(res => {
                 setData(res.data);
-            }).catch(setError)
+                setError(undefined);
+            }).catch(err => {
+                setError(err.response)
+            })
             .finally(() => {
                 setLoading(false);
             })
