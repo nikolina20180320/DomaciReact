@@ -1,4 +1,5 @@
 import React from 'react'
+import InfoItem from './InfoItem';
 
 export default function WeatherCard({ weatherData }) {
     const d = weatherData.date + '';
@@ -10,23 +11,11 @@ export default function WeatherCard({ weatherData }) {
             <h3 className='text-center'>
                 {`${day}.${month}.${year}`}
             </h3>
-            <Item name='Min' value={weatherData.temp2m.min} />
-            <Item name='Max' value={weatherData.temp2m.max} />
-            <Item name='Weather' value={weatherData.weather} />
-            <Item name='Wind' value={weatherData.wind10m_max + 'm'} />
+            <InfoItem name='Min' value={weatherData.temp2m.min} />
+            <InfoItem name='Max' value={weatherData.temp2m.max} />
+            <InfoItem name='Weather' value={weatherData.weather} />
+            <InfoItem name='Wind' value={weatherData.wind10m_max + 'm'} />
         </div>
     )
 }
 
-function Item({ name, value }) {
-    return (
-        <div className='mt-3 d-flex flex-wrap align-items-center justify-content-between'>
-            <div>
-                <strong>{name}</strong>
-            </div>
-            <div>
-                {value}
-            </div>
-        </div>
-    )
-}
